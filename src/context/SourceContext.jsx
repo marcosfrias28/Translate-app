@@ -8,19 +8,14 @@ export function SourceProvider (props) {
     textAreaSource: 'Hello World'
   })
   const [targetObj, setTargetObj] = useState({
-    targetLang: 'it',
+    targetLang: 'es',
     textAreaTarget: ''
   })
 
-  const value = {
-    sourceObj,
-    setSourceObj,
-    targetObj,
-    setTargetObj
-  }
-
   return (
-    <SourceContext.Provider value={value}>
+    <SourceContext.Provider
+      value={{ sourceObj, setSourceObj, targetObj, setTargetObj }}
+    >
       {props.children}
     </SourceContext.Provider>
   )

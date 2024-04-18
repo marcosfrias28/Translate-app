@@ -1,35 +1,15 @@
-import Sort_alfa from '../assets/Sort_alfa'
 import Copy from '../assets/Copy'
 import Sound_max_fill from '../assets/sound_max_fill'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { SourceContext } from '../context/SourceContext'
 import SelectLangBlock from './SelectLangBlock'
 import TextAreaBlock from './TextAreaBlock'
 import OptionButton from './OptionButton'
-import axios from 'axios'
-
-// https://api.mymemory.translated.net/get?q=${}!&langpair=${}|${}
-
-export function useTranslateButton () {
-  const value = useContext(SourceContext)
-  const { targetLang, sourceLang } = value
-
-  async function fetchData (url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-  }
-
-  console.log(window.localStorage.getItem('currentInput') || 'Hello World')
-  useEffect(() => {
-    fetchData(
-      `https://api.mymemory.translated.net/get?q=${'Hello World'}!&langpair=${sourceLang}|${targetLang}`
-    )
-  }, [])
-}
 
 export function TargetCard ({ bgColor }) {
   // Riprende quanti caratteri sono stati scritti o cancellati dal text area e lo reenderizza sul text label
+  const { targetObj, setTargetObj } = useContext(SourceContext)
+
 
   return (
     <>
@@ -38,13 +18,13 @@ export function TargetCard ({ bgColor }) {
         className={`p-6 rounded-3xl w-full desktop:w-[600px] max-h-[360px] h-auto border-[#4D5562] border-[1px]`}
       >
         {/*  Languages Selection Block */}
-        <SelectLangBlock />
+        <SelectLangBlock target={{ targetObj, setTargetObj }} />
 
         {/* Separator */}
         <hr className='my-5 border-[#4D5562]' />
 
         {/*  Textarea Block */}
-        <TextAreaBlock />
+        <TextAreaBlock target={{ targetObj, setTargetObj }} />
 
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end'>

@@ -9,12 +9,17 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url("./assets/hero_img.jpg");
+  /* background-image: url("./assets/hero_img.jpg");
   background-repeat: no-repeat;
-  background-color: black;
+  
   background-position: top;
-  background-size: contain;
+  background-size: contain; */
+  background-color: black;
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+img.absolute {
+  mask-image: linear-gradient(black 70%, transparent);
 }

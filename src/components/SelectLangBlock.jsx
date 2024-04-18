@@ -1,70 +1,102 @@
-import { useContext, useEffect } from 'react'
-import { SourceContext } from '../context/SourceContext'
+import { useEffect, useState } from 'react'
 import OptionButton from './OptionButton'
 
-export default function SelectLangBlock () {
-  const value = useContext(SourceContext)
-  console.log(value)
-  const buttonClasses = ['bg-[#4D5562]', 'rounded-xl', 'px-3', 'text-[#CDD5E0]']
-  let isSource = false
+export default function SelectLangBlock ({ target, source }) {
+  const buttonClasses = ['bg-[#4D5562]', 'rounded-xl', 'px-1', 'text-[#CDD5E0]']
+
+  const [changeClass, setChangeClass] = useState(true)
 
   useEffect(() => {
-    isSource = true
-  }, [sourceObj])
+    const $buttonChecked = document.querySelectorAll('form label')
+    $buttonChecked.forEach(label => {
+      const $input = label.querySelector('input')
+      if ($input.checked) {
+        buttonClasses.map(className => {
+          label.classList.add(className)
+        })
+      } else {
+        buttonClasses.map(className => {
+          label.classList.remove(className)
+        })
+      }
+    })
+  }, [changeClass])
 
   function handleSourcelang (event) {
     const clickedButton = event.target
-    setSourceLang(clickedButton.value)
-    buttonClasses.map(className => {
-      clickedButton.classList.toggle(className)
+    source.setSourceObj({
+      ...source.sourceObj,
+      sourceLang: clickedButton.lang
     })
-    console.log('isSource: ', clickedButton.value)
+    setChangeClass(!changeClass)
+    console.log('Source: ', clickedButton.lang)
   }
   function handleTargetLang (event) {
     const clickedButton = event.target
-    setTargetLang(clickedButton.value)
-    buttonClasses.map(className => {
-      clickedButton.classList.toggle(className)
+
+    target.setTargetObj({
+      ...target.targetObj,
+      targetLang: clickedButton.lang
     })
-    console.log('Target: ', clickedButton.value)
+    setChangeClass(!changeClass)
+
+    console.log('Target: ', clickedButton.lang)
   }
 
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
-      <div className='flex flex-row flex-nowrap gap-5 tablet:gap-10'>
-        {isSource ? <button>Detect Language</button> : ''}
-        <button
-          value='en'
-          onClick={
-            isSource ? e => handleSourcelang(e) : e => handleTargetLang(e)
-          }
-        >
-          English
-        </button>
-        <button
-          value='es'
-          onClick={
-            isSource ? e => handleSourcelang(e) : e => handleTargetLang(e)
-          }
-        >
-          Spanish
-        </button>
-        <div className='flex justify-center items-center'>
-          <select
-            name='select'
-            id={`select${isSource}`}
-            className='appearance-auto bg-transparent outline-none py-3 text-center '
-            onInput={
-              isSource ? e => handleSourcelang(e) : e => handleTargetLang(e)
+      <form className='flex flex-row flex-wrap gap-5 tablet:gap-10'>
+        {source ? <input type='button' value='Detect Language' /> : ''}
+        <label>
+          <input
+            type='radio'
+            className=' hidden'
+            lang='en'
+            name={source ? 'source' : 'target'}
+            onChange={
+              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
             }
-          >
-            <option value='en'>Select...</option>
-            <option value='it'>Italian</option>
-            <option value='fr'>France</option>
-          </select>
-        </div>
-      </div>
-      <OptionButton visible={isSource ? '' : 1} usage='change-lang'>
+          />
+          English
+        </label>
+        <label>
+          <input
+            type='radio'
+            className='hidden'
+            lang='es'
+            name={source ? 'source' : 'target'}
+            onChange={
+              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+            }
+          />
+          Español
+        </label>
+        <label>
+          <input
+            type='radio'
+            className='hidden'
+            lang='it'
+            name={source ? 'source' : 'target'}
+            onChange={
+              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+            }
+          />
+          Italiano
+        </label>
+        <label>
+          <input
+            type='radio'
+            className='hidden'
+            lang='fr'
+            name={source ? 'source' : 'target'}
+            onChange={
+              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+            }
+          />
+          France
+        </label>
+      </form>
+      <OptionButton visible={source ? '' : 1} usage='change-lang'>
         <svg
           width='20'
           height='20'

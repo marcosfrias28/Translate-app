@@ -2,8 +2,6 @@ import { useContext } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
 export default function OptionButton ({ children, visible, usage }) {
-  const value = useContext(SourceContext)
-  const { source } = value
   function handleCopy () {
     switch (usage) {
       case 'copy':
@@ -34,8 +32,7 @@ export default function OptionButton ({ children, visible, usage }) {
     <button
       onClick={handleCopy}
       style={{
-        visibility:
-          visible === undefined ? 'visible' : visible ? 'visible' : 'hidden'
+        display: visible === undefined ? 'block' : visible ? 'block' : 'none'
       }}
       className='border-[#394150] border-[1px] rounded-lg p-2 h-fit'
       width='20'

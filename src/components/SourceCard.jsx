@@ -10,26 +10,24 @@ import axios from 'axios'
 
 // https://api.mymemory.translated.net/get?q=${}!&langpair=${}|${}
 
-export function useTranslateButton () {
-  const value = useContext(SourceContext)
-  const { targetLang, sourceLang } = value
-
-  async function fetchData (url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-  }
-
-  console.log(window.localStorage.getItem('currentInput') || 'Hello World')
-  useEffect(() => {
-    fetchData(
-      `https://api.mymemory.translated.net/get?q=${'Hello World'}!&langpair=${sourceLang}|${targetLang}`
-    )
-  }, [])
-}
-
 export function SourceCard ({ bgColor }) {
   // Riprende quanti caratteri sono stati scritti o cancellati dal text area e lo reenderizza sul text label
+  const { sourceObj, setSourceObj, targetObj, setTargetObj } =
+    useContext(SourceContext)
+
+  function useTranslateButton () {
+    const { sourceLang, textAreaSource } = sourceObj
+    const { targetLang } = targetObj
+    const apiURL = `https://api.mymemory.translated.net/get?q=${textAreaSource}!&langpair=${sourceLang}|${targetLang}`
+    axios.get(apiURL).then(res => {
+      console.log(res.data.responseData.translatedText)
+      setTargetObj({
+        ...targetObj,
+        textAreaTarget: res.data.responseData.translatedText
+      })
+    })
+  }
+
   return (
     <>
       <section
@@ -37,13 +35,13 @@ export function SourceCard ({ bgColor }) {
         className={`p-6 rounded-3xl w-full desktop:w-[600px] max-h-[360px] h-auto border-[#4D5562] border-[1px]`}
       >
         {/*  Languages Selection Block */}
-        <SelectLangBlock />
+        <SelectLangBlock source={{ sourceObj, setSourceObj }} />
 
         {/* Separator */}
         <hr className='my-5 border-[#4D5562]' />
 
         {/*  Textarea Block */}
-        <TextAreaBlock />
+        <TextAreaBlock source={{ sourceObj, setSourceObj }} />
 
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end'>
