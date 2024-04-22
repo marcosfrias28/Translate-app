@@ -24,7 +24,7 @@ export default function TextAreaBlock ({ target, source }) {
         onChange={e => handleTextArea(e)}
         className='w-full resize-none text-[1rem] bg-transparent text-[#F9FAFB] outline-none appearance-none'
         name=''
-        id={`textarea`}
+        id={source ? 'textAreaSource' : 'textAreaTarget'}
         cols='30'
         rows='7'
         defaultValue={source ? source.textAreaSource : ''}

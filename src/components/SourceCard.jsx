@@ -15,16 +15,24 @@ export function SourceCard ({ bgColor }) {
   const { sourceObj, setSourceObj, targetObj, setTargetObj } =
     useContext(SourceContext)
 
+  const [loading, setLoading] = useState(true)
+
   function useTranslateButton () {
     const { sourceLang, textAreaSource } = sourceObj
     const { targetLang } = targetObj
+    document.querySelector('#textAreaTarget').value = 'Translating...'
     const apiURL = `https://api.mymemory.translated.net/get?q=${textAreaSource}!&langpair=${sourceLang}|${targetLang}`
     axios.get(apiURL).then(res => {
       console.log(res.data.responseData.translatedText)
-      setTargetObj({
-        ...targetObj,
-        textAreaTarget: res.data.responseData.translatedText
-      })
+      if (res.data.responseData.translatedText === '') {
+        document.querySelector('#textAreaTarget').value =
+          'Error translating, retry...'
+      } else {
+        setTargetObj({
+          ...targetObj,
+          textAreaTarget: res.data.responseData.translatedText
+        })
+      }
     })
   }
 
@@ -46,10 +54,10 @@ export function SourceCard ({ bgColor }) {
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end'>
           <div className='flex flex-nowrap gap-3'>
-            <OptionButton usage='read'>
+            <OptionButton usage='read' source>
               <Sound_max_fill />
             </OptionButton>
-            <OptionButton usage='copy'>
+            <OptionButton usage='copy' source>
               <Copy />
             </OptionButton>
           </div>
