@@ -2,13 +2,11 @@ import Logo from './assets/Logo.jsx'
 import './index.css'
 import { TargetCard } from './components/TargetCard.jsx'
 import { SourceCard } from './components/SourceCard.jsx'
-import { SourceContext } from './context/SourceContext.jsx'
-import { useContext } from 'react'
 function App () {
   return (
     <>
       <img
-        src='../src/assets/hero_img.jpg'
+        src='./assets/hero_img.jpg'
         alt='background image galaxy'
         className=' w-full h-auto absolute -z-10 max-h-[800px]'
       />
