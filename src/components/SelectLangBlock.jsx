@@ -1,10 +1,52 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import OptionButton from './OptionButton'
 
-export default function SelectLangBlock ({ target, source }) {
-  const buttonClasses = ['bg-[#4D5562]', 'rounded-xl', 'px-1', 'text-[#CDD5E0]']
+const initialState = {
+  targetLang: 'en',
+  sourceLang: 'es',
+  loading: false
+}
 
-  const [changeClass, setChangeClass] = useState(true)
+function LangButton () {
+  return (
+    <label>
+      <input
+        type='radio'
+        className='hidden'
+        lang='es'
+        name={source ? 'source' : 'target'}
+        onChange={
+          source
+            ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
+            : () => handleClick('SET_TARGET_LANGUAGE', 'en')
+        }
+      />
+      Español
+    </label>
+  )
+}
+
+function reducer (state, action) {
+  const { type, payload } = action
+  if (type === 'SET_SOURCE_LANGUAGE') {
+    state = {
+      ...state,
+      sourceLang: payload
+    }
+  }
+  if (type === 'SET_TARGET_LANGUAGE') {
+    state = {
+      ...state,
+      targetLang: payload
+    }
+  }
+  return state
+}
+
+export default function SelectLangBlock ({ target, source }) {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const buttonClasses = ['bg-[#4D5562]', 'rounded-xl', 'px-1', 'text-[#CDD5E0]']
 
   useEffect(() => {
     const $buttonChecked = document.querySelectorAll('form label')
@@ -20,33 +62,17 @@ export default function SelectLangBlock ({ target, source }) {
         })
       }
     })
-  }, [changeClass])
+  }, [state])
 
-  function handleSourcelang (event) {
-    const clickedButton = event.target
-    source.setSourceObj({
-      ...source.sourceObj,
-      sourceLang: clickedButton.lang
-    })
-    setChangeClass(!changeClass)
-    console.log('Source: ', clickedButton.lang)
-  }
-  function handleTargetLang (event) {
-    const clickedButton = event.target
-
-    target.setTargetObj({
-      ...target.targetObj,
-      targetLang: clickedButton.lang
-    })
-    setChangeClass(!changeClass)
-
-    console.log('Target: ', clickedButton.lang)
+  function handleClick (type, payload) {
+    dispatch({ type: type, payload: payload })
   }
 
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
       <form className='flex flex-row flex-wrap gap-5 tablet:gap-10'>
         {source ? <input type='button' value='Detect Language' /> : ''}
+        {source ? state.sourceLang : state.targetLang}
         <label>
           <input
             type='radio'
@@ -54,23 +80,14 @@ export default function SelectLangBlock ({ target, source }) {
             lang='en'
             name={source ? 'source' : 'target'}
             onChange={
-              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+              source
+                ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
+                : () => handleClick('SET_TARGET_LANGUAGE', 'en')
             }
           />
           English
         </label>
-        <label>
-          <input
-            type='radio'
-            className='hidden'
-            lang='es'
-            name={source ? 'source' : 'target'}
-            onChange={
-              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
-            }
-          />
-          Español
-        </label>
+
         <label>
           <input
             type='radio'
@@ -78,7 +95,9 @@ export default function SelectLangBlock ({ target, source }) {
             lang='it'
             name={source ? 'source' : 'target'}
             onChange={
-              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+              source
+                ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
+                : () => handleClick('SET_TARGET_LANGUAGE', 'en')
             }
           />
           Italiano
@@ -90,7 +109,9 @@ export default function SelectLangBlock ({ target, source }) {
             lang='fr'
             name={source ? 'source' : 'target'}
             onChange={
-              source ? e => handleSourcelang(e) : e => handleTargetLang(e)
+              source
+                ? () => dispatch({ type: 'SET_SOURCE_LANGUAGE', payload: 'it' })
+                : () => dispatch({ type: 'SET_SOURCE_LANGUAGE', payload: 'en' })
             }
           />
           France
