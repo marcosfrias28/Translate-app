@@ -10,12 +10,11 @@ export function TargetCard ({ bgColor }) {
   // Riprende quanti caratteri sono stati scritti o cancellati dal text area e lo reenderizza sul text label
   const { targetObj, setTargetObj } = useContext(SourceContext)
 
-
   return (
     <>
       <section
         style={{ backgroundColor: bgColor }}
-        className={`p-6 rounded-3xl w-full desktop:w-[600px] max-h-[360px] h-auto border-[#4D5562] border-[1px]`}
+        className={`p-6 rounded-3xl w-full desktop:w-[600px] min-h-[360px] tablet:max-h-[360px] h-auto border-[#4D5562] border-[1px]`}
       >
         {/*  Languages Selection Block */}
         <SelectLangBlock target={{ targetObj, setTargetObj }} />

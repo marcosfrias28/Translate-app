@@ -15,8 +15,6 @@ export function SourceCard ({ bgColor }) {
   const { sourceObj, setSourceObj, targetObj, setTargetObj } =
     useContext(SourceContext)
 
-  const [loading, setLoading] = useState(true)
-
   function useTranslateButton () {
     const { sourceLang, textAreaSource } = sourceObj
     const { targetLang } = targetObj
@@ -40,7 +38,7 @@ export function SourceCard ({ bgColor }) {
     <>
       <section
         style={{ backgroundColor: bgColor }}
-        className={`p-6 rounded-3xl w-full desktop:w-[600px] max-h-[360px] h-auto border-[#4D5562] border-[1px]`}
+        className={`p-6 rounded-3xl w-full desktop:w-[600px] min-h-[360px] tablet:max-h-[360px] h-auto max-smartphonexs:h-auto border-[#4D5562] border-[1px]`}
       >
         {/*  Languages Selection Block */}
         <SelectLangBlock source={{ sourceObj, setSourceObj }} />
@@ -52,7 +50,7 @@ export function SourceCard ({ bgColor }) {
         <TextAreaBlock source={{ sourceObj, setSourceObj }} />
 
         {/*  Latests Buttons Block */}
-        <div className='flex flex-nowrap w-full place-content-between items-end'>
+        <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
           <div className='flex flex-nowrap gap-3'>
             <OptionButton usage='read' source>
               <Sound_max_fill />

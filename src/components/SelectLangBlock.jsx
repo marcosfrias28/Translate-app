@@ -4,24 +4,24 @@ import OptionButton from './OptionButton'
 const initialState = {
   targetLang: 'en',
   sourceLang: 'es',
-  loading: false
+  firstRender: true
 }
 
-function LangButton () {
+function LangButton ({ content, name, value, handleClick }) {
   return (
-    <label>
+    <label className='rounded-xl px-3 py-2 text-[#CDD5E0]'>
       <input
         type='radio'
         className='hidden'
         lang='es'
-        name={source ? 'source' : 'target'}
+        name={name}
         onChange={
-          source
-            ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
-            : () => handleClick('SET_TARGET_LANGUAGE', 'en')
+          name === 'source'
+            ? () => handleClick('SET_SOURCE_LANGUAGE', value)
+            : () => handleClick('SET_TARGET_LANGUAGE', value)
         }
       />
-      Español
+      {content}
     </label>
   )
 }
@@ -43,23 +43,29 @@ function reducer (state, action) {
   return state
 }
 
-export default function SelectLangBlock ({ target, source }) {
+export default function SelectLangBlock ({ source }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const buttonClasses = ['bg-[#4D5562]', 'rounded-xl', 'px-1', 'text-[#CDD5E0]']
-
+  const buttonClasses = ['bg-[#4D5562]', 'text-[#CDD5E0]']
   useEffect(() => {
-    const $buttonChecked = document.querySelectorAll('form label')
-    $buttonChecked.forEach(label => {
-      const $input = label.querySelector('input')
-      if ($input.checked) {
-        buttonClasses.map(className => {
-          label.classList.add(className)
-        })
+    const $labels = document.querySelectorAll('form label')
+    console.log($labels)
+    $labels.forEach(label => {
+      const $input = label.querySelector(`input`)
+      $input.classList.add()
+      if (state.firstRender === true) {
+        console.log($input.lang === (state.sourceLang || state.targetLang))
+
+        if ($input.lang === (state.sourceLang || state.targetLang)) {
+          buttonClasses.map(className => label.classList.add(className))
+        }
+        state.firstRender = false
+        console.log('FirstRender', state.firstRender)
+      }
+      if (!$input.checked) {
+        buttonClasses.map(className => label.classList.remove(className))
       } else {
-        buttonClasses.map(className => {
-          label.classList.remove(className)
-        })
+        buttonClasses.map(className => label.classList.add(className))
       }
     })
   }, [state])
@@ -70,52 +76,38 @@ export default function SelectLangBlock ({ target, source }) {
 
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
-      <form className='flex flex-row flex-wrap gap-5 tablet:gap-10'>
-        {source ? <input type='button' value='Detect Language' /> : ''}
-        {source ? state.sourceLang : state.targetLang}
-        <label>
+      <form className='flex flex-row flex-wrap'>
+        {source && (
           <input
-            type='radio'
-            className=' hidden'
-            lang='en'
-            name={source ? 'source' : 'target'}
-            onChange={
-              source
-                ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
-                : () => handleClick('SET_TARGET_LANGUAGE', 'en')
-            }
+            type='button'
+            className='rounded-xl px-3 py-2'
+            value='Detect Language'
           />
-          English
-        </label>
-
-        <label>
-          <input
-            type='radio'
-            className='hidden'
-            lang='it'
-            name={source ? 'source' : 'target'}
-            onChange={
-              source
-                ? () => handleClick('SET_SOURCE_LANGUAGE', 'en')
-                : () => handleClick('SET_TARGET_LANGUAGE', 'en')
-            }
-          />
-          Italiano
-        </label>
-        <label>
-          <input
-            type='radio'
-            className='hidden'
-            lang='fr'
-            name={source ? 'source' : 'target'}
-            onChange={
-              source
-                ? () => dispatch({ type: 'SET_SOURCE_LANGUAGE', payload: 'it' })
-                : () => dispatch({ type: 'SET_SOURCE_LANGUAGE', payload: 'en' })
-            }
-          />
-          France
-        </label>
+        )}
+        <LangButton
+          content='English'
+          name={source ? 'source' : 'target'}
+          value='en'
+          handleClick={handleClick}
+        />
+        <LangButton
+          content='Español'
+          name={source ? 'source' : 'target'}
+          value='es'
+          handleClick={handleClick}
+        />
+        <LangButton
+          content='Italiano'
+          name={source ? 'source' : 'target'}
+          value='it'
+          handleClick={handleClick}
+        />
+        <LangButton
+          content='France'
+          name={source ? 'source' : 'target'}
+          value='fr'
+          handleClick={handleClick}
+        />
       </form>
       <OptionButton visible={source ? '' : 1} usage='change-lang'>
         <svg
