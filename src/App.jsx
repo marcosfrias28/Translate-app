@@ -3,10 +3,11 @@ import './index.css'
 import { TargetCard } from './components/TargetCard.jsx'
 import { SourceCard } from './components/SourceCard.jsx'
 function App () {
+  const bgUrl = import.meta.env.VITE_IMG_URL && './src/assets/hero_img.jpg'
   return (
     <>
       <img
-        src='./assets/hero_img.jpg'
+        src={bgUrl}
         alt='background image galaxy'
         className=' w-full h-auto absolute -z-10 max-h-[800px]'
       />

@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { SourceProvider } from './context/SourceContext.jsx'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.querySelector('body')).render(
   <React.StrictMode>
     <SourceProvider>
       <App />

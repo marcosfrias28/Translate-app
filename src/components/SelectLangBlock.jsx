@@ -1,113 +1,33 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useContext } from 'react'
 import OptionButton from './OptionButton'
-
-const initialState = {
-  targetLang: 'en',
-  sourceLang: 'es',
-  firstRender: true
-}
-
-function LangButton ({ content, name, value, handleClick }) {
-  return (
-    <label className='rounded-xl px-3 py-2 text-[#CDD5E0]'>
-      <input
-        type='radio'
-        className='hidden'
-        lang='es'
-        name={name}
-        onChange={
-          name === 'source'
-            ? () => handleClick('SET_SOURCE_LANGUAGE', value)
-            : () => handleClick('SET_TARGET_LANGUAGE', value)
-        }
-      />
-      {content}
-    </label>
-  )
-}
-
-function reducer (state, action) {
-  const { type, payload } = action
-  if (type === 'SET_SOURCE_LANGUAGE') {
-    state = {
-      ...state,
-      sourceLang: payload
-    }
-  }
-  if (type === 'SET_TARGET_LANGUAGE') {
-    state = {
-      ...state,
-      targetLang: payload
-    }
-  }
-  return state
-}
+import { LangButton } from './LangButton'
+import { SourceContext } from '../context/SourceContext'
 
 export default function SelectLangBlock ({ source }) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const name = source ? 'source' : 'target'
 
   const buttonClasses = ['bg-[#4D5562]', 'text-[#CDD5E0]']
-  useEffect(() => {
-    const $labels = document.querySelectorAll('form label')
-    console.log($labels)
-    $labels.forEach(label => {
-      const $input = label.querySelector(`input`)
-      $input.classList.add()
-      if (state.firstRender === true) {
-        console.log($input.lang === (state.sourceLang || state.targetLang))
-
-        if ($input.lang === (state.sourceLang || state.targetLang)) {
-          buttonClasses.map(className => label.classList.add(className))
-        }
-        state.firstRender = false
-        console.log('FirstRender', state.firstRender)
-      }
-      if (!$input.checked) {
-        buttonClasses.map(className => label.classList.remove(className))
-      } else {
-        buttonClasses.map(className => label.classList.add(className))
-      }
-    })
-  }, [state])
-
-  function handleClick (type, payload) {
-    dispatch({ type: type, payload: payload })
-  }
 
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
-      <form className='flex flex-row flex-wrap'>
+      <form className='flex flex-row flex-wrap' id={`form${name}`}>
         {source && (
-          <input
-            type='button'
-            className='rounded-xl px-3 py-2'
-            value='Detect Language'
-          />
+          <LangButton content='Detect Language' name={name} lang='auto' />
         )}
-        <LangButton
-          content='English'
-          name={source ? 'source' : 'target'}
-          value='en'
-          handleClick={handleClick}
-        />
-        <LangButton
-          content='Español'
-          name={source ? 'source' : 'target'}
-          value='es'
-          handleClick={handleClick}
-        />
-        <LangButton
-          content='Italiano'
-          name={source ? 'source' : 'target'}
-          value='it'
-          handleClick={handleClick}
-        />
-        <LangButton
-          content='France'
-          name={source ? 'source' : 'target'}
-          value='fr'
-          handleClick={handleClick}
-        />
+        <LangButton content='English' name={name} lang='en' />
+        <LangButton content='Español' name={name} lang='es' />
+        <select
+          className='bg-transparent outline-none rounded-xl px-3 py-2'
+          name=''
+          id=''
+        >
+          <option value=''>
+            <LangButton content='Italiano' name={name} lang='it' />
+          </option>
+          <option value=''>
+            <LangButton content='France' name={name} lang='fr' />
+          </option>
+        </select>
       </form>
       <OptionButton visible={source ? '' : 1} usage='change-lang'>
         <svg

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
 export default function OptionButton ({ children, visible, usage, source }) {
-  const { sourceObj, targetObj } = useContext(SourceContext)
+  const { state, dispatch } = useContext(SourceContext)
 
   function handleCopy () {
     switch (usage) {
@@ -14,7 +14,7 @@ export default function OptionButton ({ children, visible, usage, source }) {
           textarea.select()
           await navigator.clipboard
             .writeText(textarea.value)
-            .then(console.log('Copiado Exitosamente'))
+            .then(console.log('Copiado Exitosamente')) //TODO: Effect Copied
             .catch(e => console.error(error, 'No se pudo copiar el texto'))
         }
         copyText()
@@ -25,11 +25,12 @@ export default function OptionButton ({ children, visible, usage, source }) {
         )
         textarea.select()
         const utterance = new SpeechSynthesisUtterance(textarea.value)
-        utterance.lang = source ? sourceObj.sourceLang : targetObj.targetLang
+        utterance.lang = source ? state.sourceLang : state.targetLang
         speechSynthesis.speak(utterance)
         break
       case 'change-lang':
-        console.log('change-lang')
+        dispatch({ type: 'INTERCHANGE_LANG', payload: state.targetLang })
+        console.log(state)
         break
       default:
         break

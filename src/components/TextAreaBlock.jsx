@@ -2,21 +2,19 @@ import { useContext, useEffect, useState } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
 export default function TextAreaBlock ({ target, source }) {
-  const [areaLenght, setAreaLenght] = useState(0)
-  const { sourceObj, setSourceObj, targetObj, setTargetObj } =
-    useContext(SourceContext)
+  const [areaLenght, setAreaLenght] = useState(24)
+  const { state, dispatch } = useContext(SourceContext)
   function handleTextArea (event) {
-    setSourceObj({
-      ...sourceObj,
-      textAreaSource: event.target.value
+    dispatch({
+      type: 'SET_TEXT_AREA_SOURCE',
+      payload: event.target.value
     })
     setAreaLenght(event.target.textLength)
   }
 
   useEffect(() => {
-    const { textAreaTarget } = targetObj
-    document.querySelector('textarea[readonly]').value = textAreaTarget
-  }, [targetObj])
+    document.querySelector('#textAreaTarget').value = state.textAreaTarget
+  }, [state])
 
   return (
     <div className='w-full relative'>
@@ -27,7 +25,7 @@ export default function TextAreaBlock ({ target, source }) {
         id={source ? 'textAreaSource' : 'textAreaTarget'}
         cols='30'
         rows='7'
-        defaultValue={source ? source.textAreaSource : ''}
+        defaultValue={source ? state.textAreaSource : ''}
         maxLength={500}
         readOnly={source ? false : true}
       ></textarea>

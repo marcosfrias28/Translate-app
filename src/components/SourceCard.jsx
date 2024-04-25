@@ -12,23 +12,20 @@ import axios from 'axios'
 
 export function SourceCard ({ bgColor }) {
   // Riprende quanti caratteri sono stati scritti o cancellati dal text area e lo reenderizza sul text label
-  const { sourceObj, setSourceObj, targetObj, setTargetObj } =
-    useContext(SourceContext)
+  const { state, dispatch } = useContext(SourceContext)
 
   function useTranslateButton () {
-    const { sourceLang, textAreaSource } = sourceObj
-    const { targetLang } = targetObj
+    const { targetLang, sourceLang, textAreaSource } = state
     document.querySelector('#textAreaTarget').value = 'Translating...'
     const apiURL = `https://api.mymemory.translated.net/get?q=${textAreaSource}!&langpair=${sourceLang}|${targetLang}`
     axios.get(apiURL).then(res => {
-      console.log(res.data.responseData.translatedText)
       if (res.data.responseData.translatedText === '') {
         document.querySelector('#textAreaTarget').value =
           'Error translating, retry...'
       } else {
-        setTargetObj({
-          ...targetObj,
-          textAreaTarget: res.data.responseData.translatedText
+        dispatch({
+          type: 'TRANSLATE_TEXT',
+          payload: res.data.responseData.translatedText
         })
       }
     })
@@ -41,13 +38,13 @@ export function SourceCard ({ bgColor }) {
         className={`p-6 rounded-3xl w-full desktop:w-[600px] min-h-[360px] tablet:max-h-[360px] h-auto max-smartphonexs:h-auto border-[#4D5562] border-[1px]`}
       >
         {/*  Languages Selection Block */}
-        <SelectLangBlock source={{ sourceObj, setSourceObj }} />
+        <SelectLangBlock source />
 
         {/* Separator */}
         <hr className='my-5 border-[#4D5562]' />
 
         {/*  Textarea Block */}
-        <TextAreaBlock source={{ sourceObj, setSourceObj }} />
+        <TextAreaBlock source />
 
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
