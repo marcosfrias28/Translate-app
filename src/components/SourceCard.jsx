@@ -15,7 +15,8 @@ export function SourceCard ({ bgColor }) {
   function useTranslateButton () {
     const { targetLang, sourceLang, textAreaSource } = state
     document.querySelector('#textAreaTarget').value = 'Translating...'
-    const API_KEY = import.meta.env.VITE_API_KEY
+    const API_KEY = process.env.API_KEY | import.env.API_KEY;
+    console.log(API_KEY)
     const API_ENDPOINT = `https://translation.googleapis.com/language/translate/v2?q=${textAreaSource}&target=${targetLang}&format=text${
       sourceLang === 'null' ? '' : `&source=${sourceLang}`
     }&key=${API_KEY}`
