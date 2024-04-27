@@ -15,7 +15,7 @@ export default function TextAreaBlock ({ source }) {
   return (
     <div className='w-full relative'>
       <textarea
-        onChange={e => handleTextArea(e)}
+        onChange={handleTextArea}
         className='w-full resize-none text-[1rem] bg-transparent text-[#F9FAFB] outline-none appearance-none'
         name=''
         id={source ? 'textAreaSource' : 'textAreaTarget'}

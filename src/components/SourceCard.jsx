@@ -5,6 +5,7 @@ import SelectLangBlock from './SelectLangBlock'
 import TextAreaBlock from './TextAreaBlock'
 import axios from 'axios'
 import { Options } from './Options'
+import { toast } from 'sonner'
 
 // https://api.mymemory.translated.net/get?q=${}!&langpair=${}|${}
 
@@ -15,11 +16,10 @@ export function SourceCard ({ bgColor }) {
   function useTranslateButton () {
     const { targetLang, sourceLang, textAreaSource } = state
     document.querySelector('#textAreaTarget').value = 'Translating...'
-    const API_KEY = process.env.API_KEY | import.env.API_KEY;
-    console.log(API_KEY)
+
     const API_ENDPOINT = `https://translation.googleapis.com/language/translate/v2?q=${textAreaSource}&target=${targetLang}&format=text${
       sourceLang === 'null' ? '' : `&source=${sourceLang}`
-    }&key=${API_KEY}`
+    }&key=${import.meta.env.API_KEY}`
     axios
       .get(API_ENDPOINT)
       .then(res => {
@@ -33,6 +33,11 @@ export function SourceCard ({ bgColor }) {
       .catch(error => {
         document.querySelector('#textAreaTarget').value =
           'Error translating, maybe the languages are the same...'
+        if (error.response.status === 400) {
+          toast.error(
+            `Error: ${error.response.status}, Please contact the developer on Github.com/MarcosFrias28`
+          )
+        }
       })
   }
 
