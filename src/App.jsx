@@ -3,7 +3,7 @@ import './index.css'
 import { TargetCard } from './components/TargetCard.jsx'
 import { SourceCard } from './components/SourceCard.jsx'
 function App () {
-  const bgUrl = import.meta.env.VITE_IMG_URL && './src/assets/hero_img.jpg'
+  const bgUrl = './bg.webp'
   return (
     <>
       <img

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
-export default function OptionButton ({ children, visible, usage, source }) {
+export default function OptionButton ({ children, usage, source }) {
   const { state, dispatch } = useContext(SourceContext)
 
   function handleCopy () {
@@ -25,11 +25,11 @@ export default function OptionButton ({ children, visible, usage, source }) {
         )
         textarea.select()
         const utterance = new SpeechSynthesisUtterance(textarea.value)
-        utterance.lang = source ? state.sourceLang : state.targetLang
+        utterance.value = source ? state.sourceLang : state.targetLang
         speechSynthesis.speak(utterance)
         break
-      case 'change-lang':
-        dispatch({ type: 'INTERCHANGE_LANG', payload: state.targetLang })
+      case 'change-value':
+        dispatch({ type: 'INTERCHANGE_LANG', payload: state.sourceLang })
         console.log(state)
         break
       default:
@@ -39,9 +39,6 @@ export default function OptionButton ({ children, visible, usage, source }) {
   return (
     <button
       onClick={handleCopy}
-      style={{
-        display: visible === undefined ? 'block' : visible ? 'block' : 'none'
-      }}
       className='border-[#394150] border-[1px] rounded-lg p-2 h-fit'
       width='20'
       height='20'

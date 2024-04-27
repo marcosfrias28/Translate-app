@@ -1,12 +1,10 @@
 import Sort_alfa from '../assets/Sort_alfa'
-import Copy from '../assets/Copy'
-import Sound_max_fill from '../assets/sound_max_fill'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { SourceContext } from '../context/SourceContext'
 import SelectLangBlock from './SelectLangBlock'
 import TextAreaBlock from './TextAreaBlock'
-import OptionButton from './OptionButton'
 import axios from 'axios'
+import { Options } from './Options'
 
 // https://api.mymemory.translated.net/get?q=${}!&langpair=${}|${}
 
@@ -17,18 +15,24 @@ export function SourceCard ({ bgColor }) {
   function useTranslateButton () {
     const { targetLang, sourceLang, textAreaSource } = state
     document.querySelector('#textAreaTarget').value = 'Translating...'
-    const apiURL = `https://api.mymemory.translated.net/get?q=${textAreaSource}!&langpair=${sourceLang}|${targetLang}`
-    axios.get(apiURL).then(res => {
-      if (res.data.responseData.translatedText === '') {
-        document.querySelector('#textAreaTarget').value =
-          'Error translating, retry...'
-      } else {
+    const API_KEY = import.meta.env.VITE_API_KEY
+    const API_ENDPOINT = `https://translation.googleapis.com/language/translate/v2?q=${textAreaSource}&target=${targetLang}&format=text${
+      sourceLang === 'null' ? '' : `&source=${sourceLang}`
+    }&key=${API_KEY}`
+    axios
+      .get(API_ENDPOINT)
+      .then(res => {
+        const translatedText = res.data.data.translations[0].translatedText
+        document.querySelector('#textAreaTarget').value = 'Translating...'
         dispatch({
           type: 'TRANSLATE_TEXT',
-          payload: res.data.responseData.translatedText
+          payload: translatedText
         })
-      }
-    })
+      })
+      .catch(error => {
+        document.querySelector('#textAreaTarget').value =
+          'Error translating, maybe the languages are the same...'
+      })
   }
 
   return (
@@ -48,14 +52,7 @@ export function SourceCard ({ bgColor }) {
 
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
-          <div className='flex flex-nowrap gap-3'>
-            <OptionButton usage='read' source>
-              <Sound_max_fill />
-            </OptionButton>
-            <OptionButton usage='copy' source>
-              <Copy />
-            </OptionButton>
-          </div>
+          <Options language={state.sourceLang} />
           <div>
             <button
               onClick={useTranslateButton}

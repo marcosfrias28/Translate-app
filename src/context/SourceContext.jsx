@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useReducer, useState } from 'react'
 
 export const SourceContext = createContext()
 
@@ -43,11 +43,11 @@ function reducer (state, action) {
     }
   }
   if (type === 'INTERCHANGE_LANG') {
-    console.log(state)
+    if (payload === 'null') return state
     return {
       ...state,
-      targetLang: state.sourceLang,
-      sourceLang: payload
+      sourceLang: state.targetLang,
+      targetLang: payload
     }
   }
   return state
@@ -55,8 +55,10 @@ function reducer (state, action) {
 
 export function SourceProvider (props) {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <SourceContext.Provider value={{ state, dispatch }}>
+    <SourceContext.Provider value={{ state, dispatch, isOpen, setIsOpen }}>
       {props.children}
     </SourceContext.Provider>
   )

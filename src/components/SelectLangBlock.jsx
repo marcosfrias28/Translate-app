@@ -1,35 +1,54 @@
-import { useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import OptionButton from './OptionButton'
 import { LangButton } from './LangButton'
 import { SourceContext } from '../context/SourceContext'
+import ExpandDown from '../assets/ExpandDown'
 
 export default function SelectLangBlock ({ source }) {
   const name = source ? 'source' : 'target'
-
-  const buttonClasses = ['bg-[#4D5562]', 'text-[#CDD5E0]']
-
+  const { state, isOpen, setIsOpen } = useContext(SourceContext)
+  const [render, setRender] = useState(false)
+  useEffect(() => {
+    let Rendering = false
+    if (isOpen) {
+      Rendering = true
+    } else {
+      Rendering = false
+    }
+    setRender(Rendering)
+  }, [isOpen])
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
-      <form className='flex flex-row flex-wrap' id={`form${name}`}>
+      <form
+        className='flex flex-row flex-wrap gap-1 tablet:gap-2'
+        id={`form${name}`}
+      >
         {source && (
-          <LangButton content='Detect Language' name={name} lang='auto' />
+          <LangButton content='Detect Language' name={name} value='null' />
         )}
-        <LangButton content='English' name={name} lang='en' />
-        <LangButton content='Español' name={name} lang='es' />
-        <select
-          className='bg-transparent outline-none rounded-xl px-3 py-2'
-          name=''
-          id=''
+        <LangButton content='English' name={name} value='en' />
+        <LangButton content='Español' name={name} value='es' />
+        <LangButton content='Italiano' name={name} value='it' />
+        <div
+          onClick={() => setIsOpen(true)}
+          className='relative border rounded-xl px-3 py-2 cursor-pointer has-[div:has(label:has(input:checked))]:bg-[#4d5562] has-[input:checked]:text-[#cdd5e0]'
         >
-          <option value=''>
-            <LangButton content='Italiano' name={name} lang='it' />
-          </option>
-          <option value=''>
-            <LangButton content='France' name={name} lang='fr' />
-          </option>
-        </select>
+          <ExpandDown />
+          {render && (
+            <div
+              onClick={() => setIsOpen(false)}
+              className='flex z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl'
+            >
+              <LangButton content='France' name={name} value='fr' />
+              <LangButton content='Chinese' name={name} value='zh' />
+              <LangButton content='Deutsch' name={name} value='de' />
+              <LangButton content='Русский' name={name} value='ru' />
+              <LangButton content='日本語' name={name} value='ja' />
+            </div>
+          )}
+        </div>
       </form>
-      <OptionButton visible={source ? '' : 1} usage='change-lang'>
+      <OptionButton usage='change-value'>
         <svg
           width='20'
           height='20'
