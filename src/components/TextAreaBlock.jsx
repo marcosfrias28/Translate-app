@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
-export default function TextAreaBlock ({ target, source }) {
-  const [areaLenght, setAreaLenght] = useState(24)
+export default function TextAreaBlock ({ source }) {
   const { state, dispatch } = useContext(SourceContext)
+  const [areaLenght, setAreaLenght] = useState(state.textAreaSource.length)
   function handleTextArea (event) {
     dispatch({
       type: 'SET_TEXT_AREA_SOURCE',
@@ -11,10 +11,6 @@ export default function TextAreaBlock ({ target, source }) {
     })
     setAreaLenght(event.target.textLength)
   }
-
-  useEffect(() => {
-    document.querySelector('#textAreaTarget').value = state.textAreaTarget
-  }, [state])
 
   return (
     <div className='w-full relative'>

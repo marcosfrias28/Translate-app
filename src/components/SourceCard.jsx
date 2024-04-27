@@ -52,7 +52,7 @@ export function SourceCard ({ bgColor }) {
 
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
-          <Options language={state.sourceLang} />
+          <Options language={state.sourceLang} source={true} />
           <div>
             <button
               onClick={useTranslateButton}

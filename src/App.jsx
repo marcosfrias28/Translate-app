@@ -2,6 +2,7 @@ import Logo from './assets/Logo.jsx'
 import './index.css'
 import { TargetCard } from './components/TargetCard.jsx'
 import { SourceCard } from './components/SourceCard.jsx'
+import { Toaster } from 'sonner'
 function App () {
   const bgUrl = './bg.webp'
   return (
@@ -21,6 +22,7 @@ function App () {
           <TargetCard bgColor={'#121826cc'} />
         </section>
       </main>
+      <Toaster richColors position='bottom-center' />
     </>
   )
 }
