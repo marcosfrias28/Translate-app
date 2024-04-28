@@ -22,24 +22,46 @@ export default function SelectLangBlock ({ source }) {
         <LangButton content='Italiano' name={name} value='it' />
         <div
           onClick={() => setRender(true)}
-          className='relative border rounded-xl px-3 py-2 cursor-pointer has-[div:has(label:has(input:checked))]:bg-[#4d5562] has-[input:checked]:text-[#cdd5e0]'
+          className='relative rounded-xl px-3 py-2 cursor-pointer'
         >
           <ExpandDown />
-          {source && render && (
-            <div
-              onClick={() => setRender(false)}
-              className='flex z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl'
-            >
-              <LangButton content='France' name={name} value='fr' />
-              <LangButton content='Chinese' name={name} value='zh' />
-              <LangButton content='Deutsch' name={name} value='de' />
-              <LangButton content='Русский' name={name} value='ru' />
-              <LangButton content='日本語' name={name} value='ja' />
+          {((name === 'source' && render) || (name === 'target' && render)) && (
+            <div className='flex z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl'>
+              <LangButton
+                content='France'
+                name={name}
+                value='fr'
+                render={setRender}
+              />
+              <LangButton
+                content='Chinese'
+                name={name}
+                value='zh'
+                render={setRender}
+              />
+              <LangButton
+                content='Deutsch'
+                name={name}
+                value='de'
+                render={setRender}
+              />
+              <LangButton
+                content='Русский'
+                name={name}
+                value='ru'
+                render={setRender}
+              />
+              <LangButton
+                content='日本語'
+                name={name}
+                value='ja'
+                render={setRender}
+              />
             </div>
           )}
         </div>
       </form>
-      {!source && (
+      {source || (
         <OptionButton usage='change-value'>
           <svg
             width='20'

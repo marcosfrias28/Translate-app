@@ -1,5 +1,5 @@
 import Sort_alfa from '../assets/Sort_alfa'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SourceContext } from '../context/SourceContext'
 import SelectLangBlock from './SelectLangBlock'
 import TextAreaBlock from './TextAreaBlock'
@@ -7,24 +7,27 @@ import axios from 'axios'
 import { Options } from './Options'
 import { toast } from 'sonner'
 
-// https://api.mymemory.translated.net/get?q=${}!&langpair=${}|${}
-
 export function SourceCard ({ bgColor }) {
-  // Riprende quanti caratteri sono stati scritti o cancellati dal text area e lo reenderizza sul text label
   const { state, dispatch } = useContext(SourceContext)
 
-  function useTranslateButton () {
+  // useEffect(() => {
+  //   const startTranslate = setTimeout(() => {
+  //     useTranslateButton()
+  //   }, 2000)
+  //   return () => clearTimeout(startTranslate)
+  // }, [state])
+
+  function handleTranslateButton () {
     const { targetLang, sourceLang, textAreaSource } = state
     document.querySelector('#textAreaTarget').value = 'Translating...'
-
+    const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
     const API_ENDPOINT = `https://translation.googleapis.com/language/translate/v2?q=${textAreaSource}&target=${targetLang}&format=text${
       sourceLang === 'null' ? '' : `&source=${sourceLang}`
-    }&key=${import.meta.env.API_KEY}`
+    }&key=${API_KEY}`
     axios
       .get(API_ENDPOINT)
       .then(res => {
         const translatedText = res.data.data.translations[0].translatedText
-        document.querySelector('#textAreaTarget').value = 'Translating...'
         dispatch({
           type: 'TRANSLATE_TEXT',
           payload: translatedText
@@ -33,10 +36,8 @@ export function SourceCard ({ bgColor }) {
       .catch(error => {
         document.querySelector('#textAreaTarget').value =
           'Error translating, maybe the languages are the same...'
-        if (error.response.status === 400) {
-          toast.error(
-            `Error: ${error.response.status}, Please contact the developer on Github.com/MarcosFrias28`
-          )
+        if (error.response.status) {
+          toast.error(`Error: ${error.response.status}`)
         }
       })
   }
@@ -61,7 +62,7 @@ export function SourceCard ({ bgColor }) {
           <Options language={state.sourceLang} source={true} />
           <div>
             <button
-              onClick={useTranslateButton}
+              onClick={handleTranslateButton}
               className='bg-[#3662E3] border-[#7CA9F3] border-[1px] flex content-between gap-3 py-3 px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
             >
               <Sort_alfa />

@@ -20,12 +20,13 @@ export default function OptionButton ({ children, usage, source }) {
         copyText()
         break
       case 'read':
+        if (speechSynthesis.speaking) break
         const textarea = document.getElementById(
           source ? 'textAreaSource' : 'textAreaTarget'
         )
         textarea.select()
         const utterance = new SpeechSynthesisUtterance(textarea.value)
-        utterance.value = source ? state.sourceLang : state.targetLang
+        utterance.lang = source ? state.sourceLang : state.targetLang
         speechSynthesis.speak(utterance)
         break
       case 'change-value':
