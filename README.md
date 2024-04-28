@@ -16,7 +16,7 @@ Responsive and user-friendly interface designed with modern styling techniques.
 Efficient data management and high performance thanks to optimized JavaScript compilation.
 Installation
 
-Clone the repository: git clone https://github.com/your-username/translate-app.git
+Clone the repository: git clone https://github.com/marcosfrias28/Translate-app.git
 Navigate to the project directory: cd translate-app
 Install dependencies: npm install
 Start the development server: npm run dev
