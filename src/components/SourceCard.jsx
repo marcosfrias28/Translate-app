@@ -14,7 +14,7 @@ export function SourceCard ({ bgColor }) {
   useEffect(() => {
     const startTranslate = setTimeout(() => {
       handleTranslateButton()
-    }, 1000)
+    }, 3000)
     return () => clearTimeout(startTranslate)
   }, [state.textAreaSource, state.sourceLang, state.targetLang])
 
@@ -28,7 +28,7 @@ export function SourceCard ({ bgColor }) {
       sourceLang === 'null' ? '' : `&source=${sourceLang}`
     }&key=${API_KEY}`
     axios
-      .get(API_ENDPOINT)
+      .post(API_ENDPOINT)
       .then(res => {
         const translatedText = res.data.data.translations[0].translatedText
         dispatch({ type: 'TRANSLATE_TEXT', payload: translatedText })

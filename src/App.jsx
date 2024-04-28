@@ -3,8 +3,11 @@ import './index.css'
 import { TargetCard } from './components/TargetCard.jsx'
 import { SourceCard } from './components/SourceCard.jsx'
 import { Toaster } from 'sonner'
+import { useContext } from 'react'
+import { SourceContext } from './context/SourceContext.jsx'
 function App () {
   const bgUrl = './bg.webp'
+  
   return (
     <>
       <img

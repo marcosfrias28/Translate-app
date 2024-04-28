@@ -7,7 +7,20 @@ import ExpandDown from '../assets/ExpandDown'
 export default function SelectLangBlock ({ source }) {
   const name = source ? 'source' : 'target'
   const [render, setRender] = useState(false)
-
+  const { state } = useContext(SourceContext)
+  useEffect(() => {
+    if (name === 'source') {
+      document.querySelector(`#${state.sourceLang + name}`).checked = true
+    } else {
+      document.querySelector(`#${state.targetLang + name}`).checked = true
+    }
+    if (render === true) {
+      const hideMenu = setTimeout(() => {
+        setRender(false)
+      }, 800)
+      return () => clearTimeout(hideMenu)
+    }
+  }, [state.sourceLang, state.targetLang])
   return (
     <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
       <form
@@ -21,44 +34,24 @@ export default function SelectLangBlock ({ source }) {
         <LangButton content='Español' name={name} value='es' />
         <LangButton content='Italiano' name={name} value='it' />
         <div
-          onClick={() => setRender(true)}
+          onClick={() => setRender(!render)}
           className='relative rounded-xl px-3 py-2 cursor-pointer'
         >
           <ExpandDown />
-          {((name === 'source' && render) || (name === 'target' && render)) && (
-            <div className='flex z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl'>
-              <LangButton
-                content='France'
-                name={name}
-                value='fr'
-                render={setRender}
-              />
-              <LangButton
-                content='Chinese'
-                name={name}
-                value='zh'
-                render={setRender}
-              />
-              <LangButton
-                content='Deutsch'
-                name={name}
-                value='de'
-                render={setRender}
-              />
-              <LangButton
-                content='Русский'
-                name={name}
-                value='ru'
-                render={setRender}
-              />
-              <LangButton
-                content='日本語'
-                name={name}
-                value='ja'
-                render={setRender}
-              />
-            </div>
-          )}
+
+          <div
+            className={`${
+              (name === 'source' && render) || (name === 'target' && render)
+                ? 'flex'
+                : 'hidden'
+            } z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl transition-all`}
+          >
+            <LangButton content='France' name={name} value='fr' />
+            <LangButton content='Chinese' name={name} value='zh' />
+            <LangButton content='Deutsch' name={name} value='de' />
+            <LangButton content='Русский' name={name} value='ru' />
+            <LangButton content='日本語' name={name} value='ja' />
+          </div>
         </div>
       </form>
       {source || (

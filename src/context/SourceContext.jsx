@@ -6,18 +6,22 @@ const initialState = {
   sourceLang: 'en',
   textAreaSource: 'Hello world and Welcome.',
   targetLang: 'es',
-  textAreaTarget: ''
+  textAreaTarget: 'Hola mundo y bienvenido.'
 }
 
 function reducer (state, action) {
   const { type, payload } = action
   if (type === 'SET_SOURCE_LANGUAGE') {
+    if (state.render) render(false)
+
     return {
       ...state,
       sourceLang: payload
     }
   }
   if (type === 'SET_TARGET_LANGUAGE') {
+    if (state.render) render(false)
+
     return {
       ...state,
       targetLang: payload

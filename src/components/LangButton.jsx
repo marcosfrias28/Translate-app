@@ -10,12 +10,16 @@ export const actionsTypes = {
 
 export function LangButton (props) {
   const { content, name, value, render } = props
-  const { dispatch } = useContext(SourceContext)
+  const { state, dispatch } = useContext(SourceContext)
 
   function handleChanges () {
+    if (state.sourceLang === value && name === 'source')
+      document.querySelector(`#${value + name}`).checked = true
+    if (state.targetLang === value && name === 'target')
+      document.querySelector(`#${value + name}`).checked = true
     dispatch({ type: actionsTypes[name], payload: value })
-    if (render) render(false)
   }
+
   return (
     <>
       <label
