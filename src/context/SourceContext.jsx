@@ -6,8 +6,7 @@ const initialState = {
   sourceLang: 'en',
   textAreaSource: 'Hello world and Welcome.',
   targetLang: 'es',
-  textAreaTarget: '',
-  firstRender: true
+  textAreaTarget: ''
 }
 
 function reducer (state, action) {
@@ -44,8 +43,11 @@ function reducer (state, action) {
   }
   if (type === 'INTERCHANGE_LANG') {
     if (payload === 'null') return state
+    const sourceText = state.textAreaSource
     return {
       ...state,
+      textAreaTarget: sourceText,
+      textAreaSource: state.textAreaTarget,
       sourceLang: state.targetLang,
       targetLang: payload
     }

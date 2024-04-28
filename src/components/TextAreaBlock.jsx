@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { SourceContext } from '../context/SourceContext'
 
 export default function TextAreaBlock ({ source }) {
@@ -9,7 +9,7 @@ export default function TextAreaBlock ({ source }) {
       type: 'SET_TEXT_AREA_SOURCE',
       payload: event.target.value
     })
-    setAreaLenght(event.target.textLength)
+    setAreaLenght(event.target.value.length)
   }
 
   return (
@@ -21,7 +21,7 @@ export default function TextAreaBlock ({ source }) {
         id={source ? 'textAreaSource' : 'textAreaTarget'}
         cols='30'
         rows='7'
-        defaultValue={source ? state.textAreaSource : ''}
+        value={source ? state.textAreaSource : state.textAreaTarget}
         maxLength={500}
         readOnly={source ? false : true}
       ></textarea>

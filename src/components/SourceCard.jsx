@@ -9,17 +9,20 @@ import { toast } from 'sonner'
 
 export function SourceCard ({ bgColor }) {
   const { state, dispatch } = useContext(SourceContext)
+  const { targetLang, sourceLang, textAreaSource } = state
 
-  // useEffect(() => {
-  //   const startTranslate = setTimeout(() => {
-  //     useTranslateButton()
-  //   }, 2000)
-  //   return () => clearTimeout(startTranslate)
-  // }, [state])
+  useEffect(() => {
+    const startTranslate = setTimeout(() => {
+      handleTranslateButton()
+    }, 1000)
+    return () => clearTimeout(startTranslate)
+  }, [state.textAreaSource, state.sourceLang, state.targetLang])
 
   function handleTranslateButton () {
-    const { targetLang, sourceLang, textAreaSource } = state
-    document.querySelector('#textAreaTarget').value = 'Translating...'
+    if (sourceLang === targetLang) {
+      toast.warning(`Error: Same Languages on source and target`)
+      return
+    }
     const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
     const API_ENDPOINT = `https://translation.googleapis.com/language/translate/v2?q=${textAreaSource}&target=${targetLang}&format=text${
       sourceLang === 'null' ? '' : `&source=${sourceLang}`
@@ -28,17 +31,10 @@ export function SourceCard ({ bgColor }) {
       .get(API_ENDPOINT)
       .then(res => {
         const translatedText = res.data.data.translations[0].translatedText
-        dispatch({
-          type: 'TRANSLATE_TEXT',
-          payload: translatedText
-        })
+        dispatch({ type: 'TRANSLATE_TEXT', payload: translatedText })
       })
       .catch(error => {
-        document.querySelector('#textAreaTarget').value =
-          'Error translating, maybe the languages are the same...'
-        if (error.response.status) {
-          toast.error(`Error: ${error.response.status}`)
-        }
+        toast.error(`Error: ${error.status}`)
       })
   }
 

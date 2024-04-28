@@ -30,6 +30,12 @@ export default function OptionButton ({ children, usage, source }) {
         speechSynthesis.speak(utterance)
         break
       case 'change-value':
+        if (state.sourceLang === 'null') {
+          toast.warning(
+            'Detect Language is active, is not possible to interchange'
+          )
+          break
+        }
         dispatch({ type: 'INTERCHANGE_LANG', payload: state.sourceLang })
         break
       default:
