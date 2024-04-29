@@ -6,18 +6,22 @@ import TextAreaBlock from './TextAreaBlock'
 import axios from 'axios'
 import { Options } from './Options'
 import { toast } from 'sonner'
+import { useState } from 'react'
 
 export function SourceCard ({ bgColor }) {
   const { state, dispatch } = useContext(SourceContext)
+  const [isTranslated, setIsTranslated] = useState(false)
   const { targetLang, sourceLang, textAreaSource } = state
 
   useEffect(() => {
+    if (isTranslated === true) return
     const startTranslate = setTimeout(() => {
       toast.info('Auto translated')
       handleTranslateButton()
     }, 3000)
+    setIsTranslated(false)
     return () => clearTimeout(startTranslate)
-  }, [state.textAreaSource, state.sourceLang, state.targetLang])
+  }, [textAreaSource, sourceLang, targetLang])
 
   function handleTranslateButton () {
     if (sourceLang === targetLang) {
@@ -58,7 +62,10 @@ export function SourceCard ({ bgColor }) {
         <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
           <Options language={state.sourceLang} source={true} />
           <button
-            onClick={handleTranslateButton}
+            onClick={() => {
+              handleTranslateButton()
+              setIsTranslated(true)
+            }}
             className='bg-[#3662E3] border-[#7CA9F3] border-[1px] flex content-between gap-1 tablet:gap-3 py-3 px-1 tablet:px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
           >
             <Sort_alfa />
