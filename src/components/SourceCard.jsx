@@ -56,15 +56,13 @@ export function SourceCard ({ bgColor }) {
         {/*  Latests Buttons Block */}
         <div className='flex flex-nowrap w-full place-content-between items-end gap-4'>
           <Options language={state.sourceLang} source={true} />
-          <div>
-            <button
-              onClick={handleTranslateButton}
-              className='bg-[#3662E3] border-[#7CA9F3] border-[1px] flex content-between gap-3 py-3 px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
-            >
-              <Sort_alfa />
-              Translate
-            </button>
-          </div>
+          <button
+            onClick={handleTranslateButton}
+            className='bg-[#3662E3] border-[#7CA9F3] border-[1px] flex content-between gap-1 tablet:gap-3 py-3 px-1 tablet:px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
+          >
+            <Sort_alfa />
+            Translate
+          </button>
         </div>
       </section>
     </>

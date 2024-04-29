@@ -1,7 +1,7 @@
 import Copy from '../assets/Copy'
 import Sound_max_fill from '../assets/sound_max_fill'
 import OptionButton from './OptionButton'
-const languageChanger = {
+const langChanger = {
   en: 'English',
   es: 'Español',
   it: 'Italiano',
@@ -22,7 +22,9 @@ export function Options ({ language, source }) {
       <OptionButton usage='copy' source={source}>
         <Copy />
       </OptionButton>
-      <p className='text-[#4D5562] text-xl pl-3'>{languageChanger[language]}</p>
+      <p className='text-[#4D5562] text-sm sm:text-xl pl-3'>
+        {langChanger[language]}
+      </p>
     </div>
   )
 }
