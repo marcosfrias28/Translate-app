@@ -13,7 +13,10 @@ export default function TextAreaBlock ({ source }) {
   }
 
   return (
-    <div className='w-full relative'>
+    <label
+      htmlFor={source ? 'textAreaSource' : 'textAreaTarget'}
+      className='w-full relative'
+    >
       <textarea
         onChange={handleTextArea}
         className='w-full resize-none text-[1rem] bg-transparent text-[#F9FAFB] outline-none appearance-none'
@@ -32,6 +35,6 @@ export default function TextAreaBlock ({ source }) {
       ) : (
         ''
       )}
-    </div>
+    </label>
   )
 }
