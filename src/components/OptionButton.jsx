@@ -50,6 +50,7 @@ export default function OptionButton ({ children, usage, source }) {
       height='20'
     >
       {children}
+      <span className='hidden'>{`${usage} Button`}</span>
     </button>
   )
 }
