@@ -13,6 +13,7 @@ export function SourceCard ({ bgColor }) {
 
   useEffect(() => {
     const startTranslate = setTimeout(() => {
+      toast.info('Auto translated')
       handleTranslateButton()
     }, 3000)
     return () => clearTimeout(startTranslate)
