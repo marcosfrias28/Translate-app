@@ -22,7 +22,7 @@ Install dependencies: npm install
 Start the development server: npm run dev
 Usage
 
-Access the application locally at http://localhost:3000 after starting the development server.
+Access the application locally at http://localhost:5137 after starting the development server.
 Enter text to be translated and select the target language from the dropdown menu.
 Click the translate button to see the translated text instantly.
 Contributing
