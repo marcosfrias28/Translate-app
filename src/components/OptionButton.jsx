@@ -46,7 +46,7 @@ export default function OptionButton ({ children, usage, source }) {
     <button
       aria-label={usage + 'button'}
       onClick={handleCopy}
-      className='border-[#394150] border-[1px] rounded-lg p-2 h-fit'
+      className='border-[#394150] hover:scale-105 transition-all active:bg-[#394150] border-[1px] rounded-lg p-2 h-fit'
       width='20'
       height='20'
     >

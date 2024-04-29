@@ -66,7 +66,7 @@ export function SourceCard ({ bgColor }) {
               handleTranslateButton()
               setIsTranslated(true)
             }}
-            className='bg-[#3662E3] border-[#7CA9F3] border-[1px] flex content-between gap-1 tablet:gap-3 py-3 px-1 tablet:px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
+            className='bg-[#3662E3] border-[#7CA9F3] hover:scale-105 transition-all border-[1px] flex content-between gap-1 tablet:gap-3 py-3 px-1 tablet:px-6 rounded-xl place-self-end text-[#F9FAFB] font-extrabold'
           >
             <Sort_alfa />
             Translate

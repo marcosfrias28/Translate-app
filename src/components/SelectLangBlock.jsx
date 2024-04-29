@@ -44,7 +44,7 @@ export default function SelectLangBlock ({ source }) {
               (name === 'source' && render) || (name === 'target' && render)
                 ? 'flex'
                 : 'hidden'
-            } z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl transition-all`}
+            } z-50 absolute flex-col flex-nowrap bg-[#24282f] rounded-xl transition-all p-2`}
           >
             <LangButton content='France' name={name} value='fr' />
             <LangButton content='Chinese' name={name} value='zh' />

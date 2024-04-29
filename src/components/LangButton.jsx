@@ -26,7 +26,7 @@ export function LangButton (props) {
         htmlFor={value + name}
         className={`${
           value + name
-        } rounded-xl px-3 py-2 has-[:checked]:bg-[#7f8b9c] has-[:checked]:text-[#212936cc] cursor-pointer hover:opacity-80`}
+        } rounded-xl px-3 py-2 has-[:checked]:bg-[#373e49] has-[:checked]:text-[#f7f7f7] transition-all cursor-pointer hover:opacity-80`}
       >
         <input
           id={value + name}
