@@ -22,7 +22,7 @@ export function Options ({ language, source }) {
       <OptionButton usage='copy' source={source}>
         <Copy />
       </OptionButton>
-      <p className='text-[#657081] text-sm sm:text-xl pl-3'>
+      <p className='text-[#7f8b9c] text-sm sm:text-xl pl-3'>
         {langChanger[language]}
       </p>
     </div>

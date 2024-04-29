@@ -26,7 +26,7 @@ export default function TextAreaBlock ({ source }) {
         readOnly={source ? false : true}
       ></textarea>
       {source ? (
-        <p className='a absolute bottom-2 right-4 text-[#657081] text-sm'>
+        <p className='a absolute bottom-2 right-4 text-[#F9FAFB] text-sm'>
           {areaLenght} / 500
         </p>
       ) : (
