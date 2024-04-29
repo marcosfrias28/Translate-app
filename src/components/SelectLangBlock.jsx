@@ -15,7 +15,7 @@ export default function SelectLangBlock ({ source }) {
       document.querySelector(`#${state.targetLang + name}`).checked = true
     }
     if (render === true) {
-      const hideMenu = out(() => {
+      const hideMenu = setTimeout(() => {
         setRender(false)
       }, 800)
       return () => clearTimeout(hideMenu)
