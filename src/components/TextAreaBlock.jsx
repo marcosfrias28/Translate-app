@@ -17,6 +17,10 @@ export default function TextAreaBlock ({ source }) {
       htmlFor={source ? 'textAreaSource' : 'textAreaTarget'}
       className='w-full relative'
     >
+      <span className='absolute overflow-hidden m-0 p-0 w-[1px] h-[1px] border-none'>
+        {source ? 'textAreaSource' : 'textAreaTarget'}
+      </span>
+
       <textarea
         onChange={handleTextArea}
         className='w-full resize-none text-[1rem] bg-transparent text-[#F9FAFB] outline-none appearance-none'
