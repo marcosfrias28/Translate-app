@@ -44,13 +44,13 @@ export default function OptionButton ({ children, usage, source }) {
   }
   return (
     <button
+      aria-label={usage + 'button'}
       onClick={handleCopy}
       className='border-[#394150] border-[1px] rounded-lg p-2 h-fit'
       width='20'
       height='20'
     >
       {children}
-      <span className='hidden'>{`${usage} Button`}</span>
     </button>
   )
 }
