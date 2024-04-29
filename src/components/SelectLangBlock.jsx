@@ -22,7 +22,7 @@ export default function SelectLangBlock ({ source }) {
     }
   }, [state.sourceLang, state.targetLang])
   return (
-    <div className='flex flex-row flex-nowrap justify-between text-[#4D5562] font-semibold'>
+    <div className='flex flex-row flex-nowrap justify-between text-[#667183] font-semibold'>
       <form
         className='flex flex-row flex-wrap gap-1 tablet:gap-2'
         id={`form${name}`}

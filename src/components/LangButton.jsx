@@ -9,7 +9,7 @@ export const actionsTypes = {
 }
 
 export function LangButton (props) {
-  const { content, name, value, render } = props
+  const { content, name, value } = props
   const { state, dispatch } = useContext(SourceContext)
 
   function handleChanges () {
