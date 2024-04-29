@@ -47,13 +47,13 @@ export function SourceCard ({ bgColor }) {
     <>
       <section
         style={{ backgroundColor: bgColor }}
-        className={`p-6 rounded-3xl w-full desktop:w-[600px] min-h-[360px] tablet:max-h-[360px] h-auto max-smartphonexs:h-auto border-[#4D5562] border-[1px]`}
+        className={`p-6 rounded-3xl w-full desktop:w-[600px] min-h-[360px] tablet:max-h-[360px] h-auto max-smartphonexs:h-auto border-[#657081] border-[1px]`}
       >
         {/*  Languages Selection Block */}
         <SelectLangBlock source />
 
         {/* Separator */}
-        <hr className='my-5 border-[#4D5562]' />
+        <hr className='my-5 border-[#657081]' />
 
         {/*  Textarea Block */}
         <TextAreaBlock source />
